@@ -10,6 +10,13 @@ let _data = [];
 function addItem(title, completed=false) {
   _data.push({title, completed});
 }
+function removeItem(task) {
+  var index = _data.indexOf(task);
+  _data.splice(index, 1);
+}
+function removeAll() {
+  _data.splice(0, _data.length);
+}
 
 // Facebook style store creation.
 let TodoStore = assign({}, BaseStore, {
@@ -24,7 +31,6 @@ let TodoStore = assign({}, BaseStore, {
   // register store with dispatcher, allowing actions to flow through
   dispatcherIndex: AppDispatcher.register(function(payload) {
     let action = payload.action;
-
     switch(action.type) {
       case Constants.ActionTypes.ADD_TASK:
         let text = action.text.trim();
@@ -36,7 +42,16 @@ let TodoStore = assign({}, BaseStore, {
           TodoStore.emitChange();
         }
         break;
-
+      case Constants.ActionTypes.REMOVE_ALL:
+        removeAll();
+        TodoStore.emitChange();
+        break;
+      case Constants.ActionTypes.COMPLETE_TASK:
+        let task = action.task;
+        removeItem(task);
+        TodoStore.emitChange();
+        console.log(task);
+        break;
       // add more cases for other actionTypes...
     }
   })

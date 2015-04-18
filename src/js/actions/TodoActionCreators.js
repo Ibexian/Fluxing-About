@@ -11,11 +11,16 @@ module.exports = {
   },
 
   clearList: function() {
-    console.warn('clearList action not yet implemented...');
+      AppDispatcher.handleViewAction({
+        type: Constants.ActionTypes.REMOVE_ALL
+    });
   },
 
   completeTask: function(task) {
-    console.warn('completeTask action not yet implemented...');
+      AppDispatcher.handleViewAction({
+        type: Constants.ActionTypes.COMPLETE_TASK,
+        task: task
+    });
   }
 
 };

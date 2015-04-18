@@ -8,14 +8,14 @@ let Task = React.createClass({
   getDefaultProps() {
     return {
       task: {
-        title: '',
-        completed: false
+        title: ''
       }
     };
   },
 
   handleToggle(task) {
-    if (this.refs.checkbox.getDOMNode().checked) {
+    if (this.refs.checkbox.isChecked()) {
+      task.completed = true;
       ActionCreator.completeTask(task);
     }
   },
@@ -23,11 +23,7 @@ let Task = React.createClass({
   render() {
     let {task} = this.props;
     return (
-      <label>
-        <Checkbox name="checkboxName" ref="checkbox" checked={task.completed}
-          onChange={this.handleToggle.bind(this, task)} value="on" />
-        <span className="checkbox-label">{task.title}</span>
-      </label>
+      <Checkbox name="checkboxName" ref="checkbox" value="on" label={task.title} onCheck={this.handleToggle.bind(this, task)}/>
     );
   }
 });
